@@ -16,9 +16,7 @@ pipeline {
    stage('Stage I: Build') {
       steps {
         echo "Building Jar Component ..."
-	withCredentials([string(credentialsId: 'NVD_API_KEY', variable: 'NVD_API_KEY')]) {
-        sh "mvn clean package -Dnvd.api.key=$NVD_API_KEY"
-      }
+	sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn clean package" 
      }
     }
 
@@ -32,7 +30,9 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
+	withCredentials([string(credentialsId: 'NVD_API_KEY', variable: 'NVD_API_KEY')]) {
         sh " mvn org.owasp:dependency-check-maven:check -Dnvd.api.key=$NVD_API_KEY"
+      }
       }
     }
 
