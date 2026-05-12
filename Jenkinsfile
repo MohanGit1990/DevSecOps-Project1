@@ -16,8 +16,10 @@ pipeline {
    stage('Stage I: Build') {
       steps {
         echo "Building Jar Component ..."
+	withCredentials([string(credentialsId: 'NVD_API_KEY', variable: 'NVD_API_KEY')]) {
         sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn clean package "
       }
+     }
     }
 
    stage('Stage II: Code Coverage ') {
