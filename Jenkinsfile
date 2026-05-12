@@ -32,7 +32,7 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
-        sh " mvn org.owasp:dependency-check-maven:check -Dnvd.api.key=$NVD_API_KEY""
+        sh " mvn org.owasp:dependency-check-maven:check -Dnvd.api.key=$NVD_API_KEY"
       }
     }
 
