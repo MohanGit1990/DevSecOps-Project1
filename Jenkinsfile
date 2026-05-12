@@ -17,7 +17,7 @@ pipeline {
       steps {
         echo "Building Jar Component ..."
 	withCredentials([string(credentialsId: 'NVD_API_KEY', variable: 'NVD_API_KEY')]) {
-        sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn clean package -Dnvd.api.key=$NVD_API_KEY"
+        sh "mvn clean package -Dnvd.api.key=$NVD_API_KEY"
       }
      }
     }
