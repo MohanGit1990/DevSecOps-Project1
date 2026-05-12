@@ -78,7 +78,7 @@ pipeline {
    stage('Stage VIII: Smoke Test ') {
       steps { 
         echo "Smoke Test the Image"
-        sh "docker run -d --name smokerun -p 8080:8080 mohankumar1990/democicd"
+        sh "docker run -d --name smokerun -p 8081:8080 mohankumar1990/democicd"
         sh "sleep 90; ./check.sh"
         sh "docker rm --force smokerun"
         }
