@@ -31,7 +31,7 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
-        sh " mvn org.owasp:dependency-check-maven:check -DnvdApiKey $NVD_API_KEY"
+        sh "mvn org.owasp:dependency-check-maven:check -DnvdApiKey $NVD_API_KEY"
 	}
     }
 
