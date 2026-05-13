@@ -31,7 +31,7 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
-        snyk monitor --sarif > snyk-report.sarif
+        sh "snyk monitor --sarif > snyk-report.sarif"
 
 	}
     }
