@@ -32,7 +32,7 @@ pipeline {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
         sh "snyk test --sarif --file=pom.xml > snyk-report.sarif || true"
-
+	sleep 90;
 	}
     }
 
