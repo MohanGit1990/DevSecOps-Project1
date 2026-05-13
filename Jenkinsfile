@@ -4,7 +4,6 @@ pipeline {
    environment { 
         registry = "mohankumar1990/democicd" 
         registryCredential = 'docker-cred' 
-	SNYK_TOKEN = credentials('snyk-token')
    }
 
   stages {
@@ -31,8 +30,7 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
-        sh "snyk test --sarif --file=pom.xml > snyk-report.sarif || true"
-	sleep 10;
+        sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn org.owasp:dependency-check-maven:check"
 	}
     }
 
@@ -40,7 +38,7 @@ pipeline {
       steps { 
         echo "Running Static application security testing using SonarQube Scanner ..."
         withSonarQubeEnv('mysonarqube') {
-            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml  -Dsonar.projectName=Mohan-DevOps'
+            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.dependencyCheck.jsonReportPath=target/dependency-check-report.json -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html -Dsonar.projectName=Mohan-DevOps'
        }
       }
     }
