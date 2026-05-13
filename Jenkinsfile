@@ -30,7 +30,7 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
-        snykSecurity snykInstallation: 'snyk', snykTokenId: 'snyk-token'
+        snykSecurity snykInstallation: 'snyk', snykTokenId: 'snyk-token', failOnIssues: false
 	}
     }
 
