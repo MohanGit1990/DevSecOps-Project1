@@ -32,7 +32,7 @@ pipeline {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
         sh "snyk test --sarif --file=pom.xml > snyk-report.sarif || true"
-	sleep 90;
+	sleep 10;
 	}
     }
 
@@ -40,7 +40,7 @@ pipeline {
       steps { 
         echo "Running Static application security testing using SonarQube Scanner ..."
         withSonarQubeEnv('mysonarqube') {
-            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.externalIssuesReportPaths=snyk-report.sarif  -Dsonar.projectName=Mohan-DevOps'
+            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.externalIssuesReportPaths=target/snyk-report.sarif  -Dsonar.projectName=Mohan-DevOps'
        }
       }
     }
