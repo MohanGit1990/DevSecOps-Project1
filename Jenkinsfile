@@ -29,15 +29,16 @@ pipeline {
 
    stage('Stage III: SCA') {
       steps { 
-        echo "Running Software Composition Analysis using OWASP Dependency-Check ..."
-      }
+        echo "Running Software Composition Analysis using Snyk ..."
+        snykSecurity snykInstallation: 'snyk', snykTokenId: 'snyk-token'
+	}
     }
 
    stage('Stage IV: SAST') {
       steps { 
         echo "Running Static application security testing using SonarQube Scanner ..."
         withSonarQubeEnv('mysonarqube') {
-            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml  -Dsonar.projectName=wezvatech'
+            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml  -Dsonar.projectName=Mohan-DevOps'
        }
       }
     }
