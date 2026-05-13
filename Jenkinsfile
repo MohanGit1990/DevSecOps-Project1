@@ -4,7 +4,8 @@ pipeline {
    environment { 
         registry = "mohankumar1990/democicd" 
         registryCredential = 'docker-cred' 
-   }
+   	NVD_API_KEY=credentials('nvd-token')
+	}
 
   stages {
     stage('Checkout') {
@@ -30,7 +31,7 @@ pipeline {
    stage('Stage III: SCA') {
       steps { 
         echo "Running Software Composition Analysis using Snyk ..."
-        sh " mvn org.owasp:dependency-check-maven:check"
+        sh " mvn org.owasp:dependency-check-maven:check --nvdApiKey $NVD_API_KEY"
 	}
     }
 
