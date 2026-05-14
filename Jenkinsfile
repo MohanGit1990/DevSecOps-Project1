@@ -21,9 +21,9 @@ pipeline {
      }
     }
 
-   stage('Parallel Execution'){
+   stage('Stage II: Parallel Execution'){
      parallel{
-	   stage('Stage II: Code Coverage ') {
+	   stage('Stage IIa: Code Coverage ') {
 	      
 		steps {
 		    echo "Running Code Coverage ..."
@@ -31,14 +31,14 @@ pipeline {
 	      }
 	    }
 
-	   stage('Stage III: SCA') {
+	   stage('Stage IIb: SCA') {
 	      steps { 
 	        echo "Running Software Composition Analysis using Snyk ..."
-	        sh "mvn org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY -DnvdApiDelay=2000"
+	        sh "mvn org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY"
 		}
 	    }
 
-	   stage('Stage IV: SAST') {
+	   stage('Stage IIc: SAST') {
 	      steps { 
 	        echo "Running Static application security testing using SonarQube Scanner ..."
 	        withSonarQubeEnv('mysonarqube') {
