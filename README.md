@@ -1,10 +1,10 @@
 
-## Step 1: Ensure all the necessary plugins are installed in Jenkins Master
+## Step 1: Ensure all the necessary plugins are installed in Jenkins server
 - [ ] Docker Pipeline
 - [ ] SonarQube Scanner
 - [ ] Quality Gates
 
-## Step 2: Install Docker, Java8, Java11 & Trivy on Build Server
+## Step 2: Install Docker, Java8, Java11 & Trivy
 ```
 $ sudo ./setup.sh
 ```
