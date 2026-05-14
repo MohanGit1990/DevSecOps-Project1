@@ -21,7 +21,7 @@ pipeline {
      }
     }
 
-   stage('Parallel Execution')
+   stage('Parallel Execution'){
      parallel{
 	   stage('Stage II: Code Coverage ') {
 	      
@@ -46,6 +46,7 @@ pipeline {
 	       }
 	      }
 	    }
+	}
 	}
 
    stage('Stage V: QualityGates') {
