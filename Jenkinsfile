@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/MohanGit1990/DevSecOps-Project1.git'
+        git branch: 'feature', url: 'https://github.com/MohanGit1990/DevSecOps-Project1.git'
       }
     }
   
