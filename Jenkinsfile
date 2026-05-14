@@ -21,28 +21,33 @@ pipeline {
      }
     }
 
-   stage('Stage II: Code Coverage ') {
-      steps {
-	    echo "Running Code Coverage ..."
-        sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn jacoco:report"
-      }
-    }
+   stage('Stage II: Parallel Execution'){
+     parallel{
+	   stage('Stage IIa: Code Coverage ') {
+	      
+		steps {
+		    echo "Running Code Coverage ..."
+	        sh "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64; mvn jacoco:report"
+	      }
+	    }
 
-   stage('Stage III: SCA') {
-      steps { 
-        echo "Running Software Composition Analysis using Snyk ..."
-        sh "mvn org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY -DnvdApiDelay=2000"
+	   stage('Stage IIb: SCA') {
+	      steps { 
+	        echo "Running Software Composition Analysis using Snyk ..."
+	        sh "mvn org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY"
+		}
+	    }
+
+	   stage('Stage IIc: SAST') {
+	      steps { 
+	        echo "Running Static application security testing using SonarQube Scanner ..."
+	        withSonarQubeEnv('mysonarqube') {
+	            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.dependencyCheck.jsonReportPath=target/dependency-check-report.json -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html -Dsonar.projectName=Mohan-DevOps'
+	       }
+	      }
+	    }
 	}
-    }
-
-   stage('Stage IV: SAST') {
-      steps { 
-        echo "Running Static application security testing using SonarQube Scanner ..."
-        withSonarQubeEnv('mysonarqube') {
-            sh 'mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.dependencyCheck.jsonReportPath=target/dependency-check-report.json -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html -Dsonar.projectName=Mohan-DevOps'
-       }
-      }
-    }
+	}
 
    stage('Stage V: QualityGates') {
       steps { 
